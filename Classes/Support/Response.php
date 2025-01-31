@@ -49,6 +49,6 @@ class Response
     {
         $acceptHeaders = Request::createFromGlobals()->getAcceptableContentTypes();
 
-        return in_array('application/json', $acceptHeaders);
+        return in_array('application/json', $acceptHeaders) || in_array('*/*', $acceptHeaders);
     }
 }
