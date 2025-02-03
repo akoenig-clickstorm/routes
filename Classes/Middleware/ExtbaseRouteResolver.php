@@ -64,7 +64,6 @@ class ExtbaseRouteResolver implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $request = $request->withAttribute('extbase', new ExtbaseRequestParameters());
-        $request = $this->disableRouting($request);
 
         try {
             $this->apiHandler->handle($request);
@@ -86,17 +85,5 @@ class ExtbaseRouteResolver implements MiddlewareInterface
         }
 
         return $this->apiHandler->generateResponse();
-    }
-
-    /**
-     * We unset routing attribute to prevent it from next middleware redirects/resolves
-     */
-    private function disableRouting(ServerRequestInterface $request): ServerRequestInterface
-    {
-        $request = $request->withoutAttribute('routing');
-
-        $GLOBALS['TYPO3_REQUEST'] = $request;
-
-        return $request;
     }
 }
