@@ -97,20 +97,28 @@ class RouteHandler
      */
     private function processRoute(ServerRequestInterface $request, Route $route): void
     {
-        $GLOBALS['TSFE']->set_no_cache();
-        $GLOBALS['TSFE']->determineId($request);
-
         $this->processMiddleware(
             $request->withQueryParams($route->getArguments())
         );
 
         $this->createActionArgumentsFrom($route);
 
+        // use $GLOBALS['TYPO3_REQUEST'] updated by methode above
+        // set updated routing attribute arguments
+        $request = $this->getRequest();
+        $routing = $request->getAttribute('routing');
+        $routing->__construct($routing->getPageId(), $routing->getPageType(), $request->getQueryParams(), $routing->getStaticArguments());
+        $request->withAttribute('routing', $routing);
         $this->bootstrap([
             'pluginName' => $route->getPlugin(),
             'vendorName' => $route->getController()->getVendor(),
             'extensionName' => $route->getController()->getExtension()
         ]);
+    }
+
+    private function getRequest(): ServerRequestInterface
+    {
+        return $GLOBALS['TYPO3_REQUEST'];
     }
 
     /**
