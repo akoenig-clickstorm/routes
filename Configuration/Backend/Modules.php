@@ -18,7 +18,7 @@ return [
         'extensionName' => 'Routes',
         'controllerActions' => [
             ManagementController::class => [
-                'index, show',
+                'index', 'show',
             ],
         ],
     ],
