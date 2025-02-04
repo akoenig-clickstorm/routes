@@ -97,6 +97,10 @@ class RouteHandler
      */
     private function processRoute(ServerRequestInterface $request, Route $route): void
     {
+        // Disable the cache and give a reason
+        $cacheInstruction = $request->getAttribute('frontend.cache.instruction');
+        $cacheInstruction->disableCache('EXT:routes: Disables all caches for lms/routes.');
+
         $this->processMiddleware(
             $request->withQueryParams($route->getArguments())
         );
