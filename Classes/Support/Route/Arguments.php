@@ -50,7 +50,9 @@ trait Arguments
     protected function initializeArguments(array $configuration): void
     {
         foreach ($this->removeMetadataFrom($configuration) as $name => $value) {
-            $this->arguments[$name] = GeneralUtility::_GP($name) ?? $value;
+            $this->arguments[$name] = $this->controller->getRequest()->getExtbaseRequest()->getParsedBody()[$name]
+                ?? $this->controller->getRequest()->getExtbaseRequest()->getQueryParams()[$name]
+                ?? $value;
         }
 
         $this->initializeBodyParameters();

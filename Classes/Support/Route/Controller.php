@@ -63,4 +63,9 @@ class Controller
     {
         return $this->request->getVendorNameBasedOn($this->controllerFQCN);
     }
+
+    public function getRequest(): Request
+    {
+        return $this->request;
+    }
 }

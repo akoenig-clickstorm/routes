@@ -61,4 +61,9 @@ class Request
     {
         return explode('\\', $controllerFQCN)[0];
     }
+
+    public function getExtbaseRequest(): ExtbaseRequest
+    {
+        return $this->request;
+    }
 }
